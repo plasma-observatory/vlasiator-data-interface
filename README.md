@@ -11,3 +11,9 @@ git clone https://github.com/plasma-observatory-simulations/vlasiator-data-inter
 cd vlasiator-data-interface
 pip install -r requirements.txt
 ```
+
+
+# Vlasiator data
+While Vlasiator is open source and there exists open Vlasiator datasets, outside of PO Yellow Book please observe the rules of the road laid out here while using Vlasiator data:
+https://www.helsinki.fi/en/researchgroups/vlasiator/rules-of-the-road
+... and inside the Yellow Book duties also of course use your common academic sense :).
