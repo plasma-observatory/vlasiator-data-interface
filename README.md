@@ -17,3 +17,6 @@ pip install -r requirements.txt
 While Vlasiator is open source and there exists open Vlasiator datasets, especially outside of PO Yellow Book please observe the rules of the road laid out here while using Vlasiator data:
 https://www.helsinki.fi/en/researchgroups/vlasiator/rules-of-the-road
 ... and inside the Yellow Book duties also of course use your common academic sense :).
+
+See here for publicly available datasets.
+https://plasma-observatory.github.io/simulations/models/vlasiator/
