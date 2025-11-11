@@ -20,4 +20,3 @@ https://www.helsinki.fi/en/researchgroups/vlasiator/rules-of-the-road
 
 See here for publicly available datasets.
 https://plasma-observatory.github.io/simulations/models/vlasiator/
-
