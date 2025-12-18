@@ -10,14 +10,64 @@ cellid = f.get_cellid_with_vdf(probept)
 
 print(cellid)
 
-pt.plot.plot_vdf(vlsvobj=f, cellids=[cellid], xz=1, outputdir="./")
+pt.plot.plot_vdf(vlsvobj=f, cellids=[cellid], xz=1, outputdir="./", title="Projected VDF")
 
 distr, edges = f.read_velocity_distribution_dense(cellid)
 ex = edges[0]
 ey = edges[1]
 ez = edges[2]
-# print(distr)
-pc = plt.pcolor(ex,ez, np.squeeze(distr[:,60,:]).T, norm="log", vmin=7.0630006e-16, )
+
+pc = plt.pcolor(ex,ez, np.squeeze(distr[:,ey.size//2,:]).T, norm="log", vmin=7.0630006e-16, )
 plt.colorbar()
 pc.axes.set_aspect('equal')
-plt.savefig("test.png", dpi=300)
+plt.title("Slice of the dense VDF distribution around $v_y$ midpoint")
+plt.xlabel("$v_x / \mathrm{m}\,\mathrm{s}^{-1}$")
+plt.ylabel("$v_z / \mathrm{m}\,\mathrm{s}^{-1}$")
+plt.savefig("dense_distribution_slice.png", dpi=300)
+plt.close()
+
+dxs = (ex[1:] - ex[:-1])
+dys = (ey[1:] - ey[:-1])
+dzs = (ez[1:] - ez[:-1])
+
+# centers, not used
+# xs = ex[:-1]+dxs/2
+# ys = ey[:-1]+dys/2
+# zs = ez[:-1]+dzs/2
+
+X,Y,Z = np.meshgrid(ex[:-1],ey[:-1],ez[:-1], indexing="ij")
+dX,dY,dZ = np.meshgrid(dxs,dys,dzs, indexing="ij")
+
+lX = X.reshape((-1))
+lY = Y.reshape((-1))
+lZ = Z.reshape((-1))
+
+ldistr = distr.reshape((-1))
+plt.hist(distr.reshape((-1)), bins=1000, log=True)
+plt.yscale("log")
+plt.title("Histogram of v-space sample weights")
+plt.xlabel("$f(v)$")
+plt.savefig("vdf-hist.png")
+plt.close()
+
+samples = 10000000
+
+choice = np.random.choice(lX.size, size=samples, p =ldistr/np.sum(ldistr))
+particle_vs = np.random.random_sample(size=(samples,3))
+
+ldX = dX.reshape((-1))
+ldY = dY.reshape((-1))
+ldZ = dZ.reshape((-1))
+
+particle_vs *= np.stack((ldX[choice],ldY[choice],ldZ[choice]),axis=1) # scale by v-cell size
+particle_vs += np.stack((lX[choice],lY[choice],lZ[choice]), axis=1) # offset by chosen bin edges
+
+nbins=1000
+plt.hist2d(particle_vs[:,0], particle_vs[:,2], bins=nbins, norm="log")
+plt.axis("equal")
+plt.colorbar(label="counts")
+plt.xlabel("$v_x / \mathrm{m}\,\mathrm{s}^{-1}$")
+plt.ylabel("$v_z / \mathrm{m}\,\mathrm{s}^{-1}$")
+plt.title(f"Counts in $(v_x,v_z)$ ({samples} samples, {nbins}$^2$ bins)")
+plt.savefig("testhist.png")
+
