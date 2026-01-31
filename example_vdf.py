@@ -10,6 +10,10 @@ cellid = f.get_cellid_with_vdf(probept)
 
 print(cellid)
 
+vth = f.read_variable("proton/vg_thermalvelocity", cellids=cellid)
+
+print("Distribution has thermal velocity of "+str(vth)+" m/s")
+
 pt.plot.plot_vdf(vlsvobj=f, cellids=[cellid], xz=1, outputdir="./", title="Projected VDF")
 
 distr, edges = f.read_velocity_distribution_dense(cellid)
@@ -59,7 +63,7 @@ plt.xlabel("$f(v)$")
 plt.savefig("vdf-hist.png")
 plt.close()
 
-samples = 100000
+samples = 1000000
 
 choice = np.random.choice(lX.size, size=samples, p =ldistr/np.sum(ldistr))
 particle_vs = np.random.random_sample(size=(samples,3))
@@ -87,3 +91,6 @@ print(distr.shape)
 np.savez("VDF_example",allow_pickle=False, dense_array=distr, dense_array_edges_x=ex, dense_array_edges_y=ey, dense_array_edges_z=ez, sampled_particles=particle_vs)
 
 np.savez("VDF_example_particles",allow_pickle=False, sampled_particles=particle_vs)
+
+vitro_norm = 1/50000 # Norm comes straight out of a hat. Not the tophat, this is completely arbirtary.
+np.savetxt("/home/mjalho/PO/vitro/src/imca-legacy/vdf_files/VDF_example_particles.txt", particle_vs*vitro_norm, delimiter=' ')
