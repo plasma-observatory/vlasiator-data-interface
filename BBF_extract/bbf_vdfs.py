@@ -177,7 +177,7 @@ for cellid in cellids_box[:]:
 
 
 
-np.savez("boxed_vdf_data_1610_BBF", B=B_out,n=rho_out, E=E_out,coordinates=coords_out,cellids=cellids_box,VDF_samples=np.array(vdfsamples_out))
+np.savez("boxed_vdf_data_FHA_1610_BBF", B=B_out,n=rho_out, E=E_out,coordinates=coords_out,cellids=cellids_box,VDF_samples=np.array(vdfsamples_out))
 
    #np.savez(str(cellid)+"_VDF_example",allow_pickle=False, dense_array=distr, dense_array_edges_x=ex, dense_array_edges_y=ey, dense_array_edges_z=ez, sampled_particles=particle_vs)
 
