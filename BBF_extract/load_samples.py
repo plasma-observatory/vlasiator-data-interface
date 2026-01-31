@@ -1,9 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-data = np.load("boxed_vdf_data_1610_BBF.npz")
+data = np.load("boxed_vdf_data_FHA_1610_BBF.npz")
 
 print(*[k for k in data.keys()])
+print(len(data["cellids"]), "spatial cells available")
 
 RE=6371e3
 
