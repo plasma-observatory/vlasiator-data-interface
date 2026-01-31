@@ -37,6 +37,9 @@ print("Taking example at index ", hit, ", coordinates=", data["coordinates"][hit
 
 vsample = data["VDF_samples"][hit]/1e6 #1000km/s
 
+vitro_norm = 1#/50000 # Norm comes straight out of a hat. Not the tophat, this is completely arbirtary.
+np.savetxt("VDF_example_particles.txt", vsample*vitro_norm, delimiter=' ')
+
 ax = plt.figure(figsize=[8,8]).add_subplot(projection='3d')
 
 vmean = np.mean(vsample,axis=0)
